@@ -40,17 +40,11 @@ spec:
           mountPath: /var/lib/postgresql/data
         - name: postgres-init
           mountPath: /docker-entrypoint-initdb.d
-      tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
-          effect: "NoSchedule"
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: ""
       volumes:
       - name: postgres-data
         persistentVolumeClaim:
           claimName: postgres-data
       - name: postgres-init
-        hostPath:
-          path: /volumes/init
+        configMap:
+          name: postgres-init-cfg
 
