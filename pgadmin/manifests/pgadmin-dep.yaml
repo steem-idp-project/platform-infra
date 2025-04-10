@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: idpuser/root-pgadmin:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: pgadmin-env-cfg
+          # use custom command to set permissions for pgadmin data directory
+          # and start pgadmin
+          # this is needed because pgadmin runs as user pgadmin (5050) and the volume
+          # is created and mounted by the root user
+          command:
+            - /bin/sh
+            - -c
+            - "chown -R 5050:5050 /var/lib/pgadmin && /entrypoint.sh"
+          volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
+            - name: pgadmin-servers-cfg
+              mountPath: /var/lib/pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+      volumes:
+        - name: pgadmin-data
+          persistentVolumeClaim:
+            claimName: pgadmin-data
+        - name: pgadmin-servers-cfg
+          configMap:
+            name: pgadmin-servers-cfg

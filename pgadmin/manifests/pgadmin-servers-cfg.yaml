@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-servers-cfg
+  labels:
+    app: pgadmin
+    type: servers-cfg
+data:
+  servers.json: |
+    {
+      "Servers": {
+        "1": {
+            "Name": "Steem Postgres DB",
+            "Group": "Steem group",
+            "Port": 5432,
+            "Username": "admin",
+            "Host": postgres-svc,
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres",
+        }
+      }
+    }
