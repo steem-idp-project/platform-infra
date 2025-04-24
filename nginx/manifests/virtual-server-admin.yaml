@@ -10,6 +10,9 @@ spec:
     - name: pgadmin
       service: pgadmin
       port: 80
+    - name: grafana
+      service: prometheus-grafana
+      port: 80
   routes:
     - path: /pgadmin
       action:
@@ -20,6 +23,6 @@ spec:
             set:
               - name: X-Script-Name
                 value: /pgadmin
-    # - path: /portainer
-    #   action:
-    #     pass: portainer-svc
+    - path: /
+      action:
+        pass: grafana
