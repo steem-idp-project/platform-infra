@@ -10,13 +10,13 @@ data:
     {
       "Servers": {
         "1": {
-            "Name": "Steem Postgres DB",
-            "Group": "Steem group",
+            "Name": "Steem",
+            "Group": "Servers",
             "Port": 5432,
             "Username": "admin",
-            "Host": postgres-svc,
+            "Host": "postgres-svc",
             "SSLMode": "prefer",
-            "MaintenanceDB": "postgres",
+            "MaintenanceDB": "postgres"
         }
       }
     }

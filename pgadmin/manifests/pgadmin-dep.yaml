@@ -17,7 +17,7 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             limits:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "500m"
           ports:
             - containerPort: 80
@@ -36,7 +36,7 @@ spec:
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
             - name: pgadmin-servers-cfg
-              mountPath: /var/lib/pgadmin4/servers.json
+              mountPath: /pgadmin4/servers.json
               subPath: servers.json
               readOnly: true
           readinessProbe:

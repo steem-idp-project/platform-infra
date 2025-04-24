@@ -1,0 +1,25 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: admin-steem-vs
+spec:
+  host: idp.admin-steem.com
+  tls:
+    secret: admin-tls-certs
+  upstreams:
+    - name: pgadmin
+      service: pgadmin
+      port: 80
+  routes:
+    - path: /pgadmin
+      action:
+        proxy:
+          upstream: pgadmin
+          requestHeaders:
+            pass: true
+            set:
+              - name: X-Script-Name
+                value: /pgadmin
+    # - path: /portainer
+    #   action:
+    #     pass: portainer-svc
