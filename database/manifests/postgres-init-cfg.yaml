@@ -7,7 +7,7 @@ metadata:
     type: init
 data:
   init.sql: |
-    SELECT current_user;
+    SET role admin;
 
     CREATE TABLE IF NOT EXISTS users (
       uid SERIAL PRIMARY KEY,
@@ -38,3 +38,6 @@ data:
       date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       hours_played INTEGER DEFAULT 0
     );
+
+    INSERT INTO users (email, passwd, is_admin) VALUES
+      ('admin@admin.com', 'admin', TRUE);
