@@ -23,6 +23,6 @@ spec:
             set:
               - name: X-Script-Name
                 value: /pgadmin
-    - path: /
+    - path: /grafana
       action:
         pass: grafana
