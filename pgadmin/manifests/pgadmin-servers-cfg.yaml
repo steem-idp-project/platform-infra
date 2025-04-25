@@ -14,7 +14,7 @@ data:
             "Group": "Servers",
             "Port": 5432,
             "Username": "admin",
-            "Host": "postgres-svc",
+            "Host": "postgres-rw",
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"
         }

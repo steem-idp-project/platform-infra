@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  instances: 3
+  bootstrap:
+    initdb:
+      database: steem
+      owner: admin
+      secret:
+        name: postgres-user-creds
+      postInitApplicationSQLRefs:
+        configMapRefs:
+          - name: postgres-init-cfg
+            key: init.sql
+  storage:
+    size: 5Gi

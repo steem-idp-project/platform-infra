@@ -1,21 +1,26 @@
 #!/bin/bash
 
+echo
 echo "Install Nginx Ingress Controller"
 helm repo add nginx https://helm.nginx.com/stable
 helm install steem nginx/nginx-ingress --version 2.1.0 -n nginx-ingress --create-namespace
 kubectl wait --for=condition=available --timeout=300s deployment/steem-nginx-ingress-controller -n nginx-ingress
 
-echo ""
+echo
 echo "Creating admin-steem tls secret"
 kubectl create secret tls admin-tls-certs \
     --cert=nginx/manifests/admin-certs/admin.crt \
     --key=nginx/manifests/admin-certs/admin.key
 
-echo ""
-echo "Applying Nginx ingress configuration"
+echo
+echo "Creating Nginx virtual server for idp.admin-steem.com"
 kubectl apply -f nginx/manifests/virtual-server-admin.yaml
 
-echo ""
+echo
+echo "Creating Nginx virtual server route for idp.admin-steem.com/grafana"
+kubectl apply -f nginx/manifests/virtual-server-route-grafana.yaml
+
+echo
 echo "In order to resolve idp.admin-steem.com and idp.steem.com, the external IP of the Nginx ingress controller must be added to the /etc/hosts file."
 echo "Checking if Cloud Provider Kind if running for external IP allocation"
 ps aux | grep cloud-provider-kind | grep -v grep | grep -v systemd > /dev/null

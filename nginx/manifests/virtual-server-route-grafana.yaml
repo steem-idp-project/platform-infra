@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: grafana-vsr
+  namespace: monitoring
+spec:
+  host: idp.admin-steem.com
+  upstreams:
+    - name: grafana
+      service: prometheus-grafana
+      port: 80
+  subroutes:
+    - path: /grafana
+      action:
+        pass: grafana

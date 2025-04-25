@@ -4,5 +4,5 @@ metadata:
   name: postgres-user-creds
 type: Opaque
 stringData:
-  user: admin
+  username: admin
   password: admin

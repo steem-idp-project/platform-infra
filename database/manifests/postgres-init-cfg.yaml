@@ -6,34 +6,35 @@ metadata:
     app: postgres
     type: init
 data:
-  # TODO: replace this dummy init script with the actual one
   init.sql: |
     SELECT current_user;
 
-    CREATE TABLE TARI
-    (
-        ID          SERIAL PRIMARY KEY NOT NULL,
-        NUME_TARA   VARCHAR(30) UNIQUE NOT NULL CHECK (NUME_TARA <> ''),
-        LATITUDINE  DOUBLE PRECISION   NOT NULL CHECK (LATITUDINE >= -90 AND LATITUDINE <= 90),
-        LONGITUDINE DOUBLE PRECISION   NOT NULL CHECK (LONGITUDINE >= -180 AND LONGITUDINE <= 180)
+    CREATE TABLE IF NOT EXISTS users (
+      uid SERIAL PRIMARY KEY,
+      email VARCHAR(256) UNIQUE,
+      passwd VARCHAR(256) NOT NULL,
+      is_publisher BOOLEAN DEFAULT FALSE,
+      is_admin BOOLEAN DEFAULT FALSE
     );
 
-    CREATE TABLE ORASE
-    (
-        ID          SERIAL PRIMARY KEY NOT NULL,
-        NUME_ORAS   VARCHAR(30)        NOT NULL CHECK (NUME_ORAS <> ''),
-        LATITUDINE  DOUBLE PRECISION   NOT NULL CHECK (LATITUDINE >= -90 AND LATITUDINE <= 90),
-        LONGITUDINE DOUBLE PRECISION   NOT NULL CHECK (LONGITUDINE >= -180 AND LONGITUDINE <= 180),
-        ID_TARA     INTEGER REFERENCES TARI (ID) ON DELETE CASCADE,
-        UNIQUE (NUME_ORAS, ID_TARA)
+    CREATE TABLE IF NOT EXISTS wallets (
+      uid INTEGER PRIMARY KEY REFERENCES users (uid) ON DELETE CASCADE,
+      balance INTEGER DEFAULT 0
     );
 
-    CREATE TABLE TEMPERATURI
-    (
-        ID      SERIAL PRIMARY KEY NOT NULL,
-        VALOARE DOUBLE PRECISION   NOT NULL,
-        DATA    BIGINT             NOT NULL,
-        ID_ORAS INTEGER REFERENCES ORASE (ID) ON DELETE CASCADE,
-        UNIQUE (ID_ORAS, DATA)
+    CREATE TABLE IF NOT EXISTS games (
+      gid SERIAL PRIMARY KEY,
+      name VARCHAR(256) UNIQUE,
+      description VARCHAR(256),
+      price INTEGER NOT NULL,
+      publisher INTEGER REFERENCES users (uid),
+      status VARCHAR(256) NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS purchases (
+      pid SERIAL PRIMARY KEY,
+      game_id INTEGER REFERENCES games (gid),
+      user_id INTEGER REFERENCES users (uid),
+      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      hours_played INTEGER DEFAULT 0
+    );
