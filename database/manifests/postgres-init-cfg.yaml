@@ -27,14 +27,14 @@ data:
       name VARCHAR(256) UNIQUE,
       description VARCHAR(256),
       price INTEGER NOT NULL,
-      publisher INTEGER REFERENCES users (uid),
+      publisher INTEGER REFERENCES users (uid) ON DELETE CASCADE,
       status VARCHAR(256) NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS purchases (
       pid SERIAL PRIMARY KEY,
-      game_id INTEGER REFERENCES games (gid),
-      user_id INTEGER REFERENCES users (uid),
+      game_id INTEGER REFERENCES games (gid) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users (uid) ON DELETE CASCADE,
       date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       hours_played INTEGER DEFAULT 0
     );
