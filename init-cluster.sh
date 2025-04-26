@@ -28,4 +28,5 @@ kubectl apply -f $pgsql_creds_file
 ./io-api/deploy-io-api.sh
 ./pgadmin/deploy-pgadmin.sh
 ./prometheus/deploy-prometheus.sh
+./portainer/deploy-portainer.sh
 ./nginx/deploy-nginx.sh
