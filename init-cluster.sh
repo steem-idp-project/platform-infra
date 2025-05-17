@@ -30,3 +30,4 @@ kubectl apply -f $pgsql_creds_file
 ./prometheus/deploy-prometheus.sh
 ./portainer/deploy-portainer.sh
 ./nginx/deploy-nginx.sh
+./actions-runner/deploy-actions-runner.sh
