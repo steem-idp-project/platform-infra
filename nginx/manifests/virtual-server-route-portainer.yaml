@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: portainer-vsr
+  namespace: portainer
+spec:
+  host: idp.admin-steem.com
+  upstreams:
+    - name: portainer
+      service: portainer
+      port: 9443
+  subroutes:
+    - path: /
+      action:
+        pass: portainer
