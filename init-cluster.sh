@@ -26,6 +26,7 @@ kubectl apply -f $pgsql_creds_file
 # deploy and initialize database
 ./database/deploy-db.sh
 ./io-api/deploy-io-api.sh
+./auth-api/deploy-auth-api.sh
 ./pgadmin/deploy-pgadmin.sh
 ./prometheus/deploy-prometheus.sh
 ./portainer/deploy-portainer.sh

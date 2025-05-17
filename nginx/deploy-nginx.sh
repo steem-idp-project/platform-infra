@@ -21,6 +21,16 @@ echo "Creating Nginx virtual server route for idp.admin-steem.com/grafana"
 kubectl apply -f nginx/manifests/virtual-server-route-grafana.yaml
 
 echo
+echo "Creating steem tls secret"
+kubectl create secret tls steem-tls-certs \
+    --cert=nginx/manifests/steem-certs/steem.crt \
+    --key=nginx/manifests/steem-certs/steem.key
+
+echo
+echo "Creating Nginx virtual server for idp.steem.com"
+kubectl apply -f nginx/manifests/virtual-server-steem.yaml
+
+echo
 echo "In order to resolve idp.admin-steem.com and idp.steem.com, the external IP of the Nginx ingress controller must be added to the /etc/hosts file."
 echo "Checking if Cloud Provider Kind if running for external IP allocation"
 ps aux | grep cloud-provider-kind | grep -v grep | grep -v systemd > /dev/null

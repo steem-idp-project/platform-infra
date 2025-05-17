@@ -1,0 +1,18 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: steem-vs
+spec:
+  host: idp.steem.com
+  tls:
+    secret: steem-tls-certs
+  upstreams:
+    - name: auth-api
+      service: auth-svc
+      port: 5050
+  routes:
+    - path: /auth
+      action:
+        proxy:
+          upstream: auth-api
+          rewritePath: /
