@@ -3,7 +3,7 @@
 manifest_dir="auth-api/manifests"
 
 echo
-echo "Deploying autho-api"
+echo "Deploying auth-api"
 kubectl apply -f $manifest_dir/auth-dep.yaml
 kubectl wait --for=condition=available --timeout=300s deployment/auth-api
 

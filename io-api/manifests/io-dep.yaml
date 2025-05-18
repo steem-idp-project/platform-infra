@@ -23,7 +23,7 @@ spec:
             failureThreshold: 3
             httpGet:
               port: 6061
-              path: /
+              path: /health
           resources:
             limits:
               memory: "128Mi"

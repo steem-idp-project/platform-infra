@@ -10,9 +10,17 @@ spec:
     - name: auth-api
       service: auth-svc
       port: 5050
+    - name: steem-api
+      service: steem-svc
+      port: 5031
   routes:
     - path: /auth
       action:
         proxy:
           upstream: auth-api
+          rewritePath: /
+    - path: /api
+      action:
+        proxy:
+          upstream: steem-api
           rewritePath: /

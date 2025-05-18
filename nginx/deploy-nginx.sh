@@ -37,7 +37,6 @@ ps aux | grep cloud-provider-kind | grep -v grep | grep -v systemd > /dev/null
 if [[ "$?" -ne 0 ]]; then
     echo "Cloud Provider Kind not found. After starting it, you can get the external IP IP with:"
     echo "kubectl get svc -n nginx-ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}'"
-    exit 1
 else
     echo "Cloud Provider Kind is running. External IP is:"
     echo $(kubectl get svc -n nginx-ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')

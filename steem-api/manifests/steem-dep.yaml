@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-api
+  name: steem-api
 spec:
   selector:
     matchLabels:
-      app: auth-api
+      app: steem-api
   template:
     metadata:
       labels:
-        app: auth-api
+        app: steem-api
     spec:
       containers:
-        - name: auth-api
-          image: idpuser/auth-api:latest
+        - name: steem-api
+          image: idpuser/steem-api:latest
           imagePullPolicy: Always
           readinessProbe:
             initialDelaySeconds: 30
@@ -22,23 +22,21 @@ spec:
             successThreshold: 1
             failureThreshold: 3
             httpGet:
-              port: 5050
+              port: 5031
               path: /health
           resources:
             limits:
               memory: "128Mi"
               cpu: "500m"
           ports:
-            - containerPort: 5050
-              name: auth-api-port
+            - containerPort: 5031
+              name: steem-api-port
           env:
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: auth-api-jwt-secret
-                  key: JWT_SECRET
-                  optional: false
             - name: IO_API_HOST
               value: "io-svc"
             - name: IO_API_PORT
               value: "6061"
+            - name: AUTH_API_HOST
+              value: "auth-svc"
+            - name: AUTH_API_PORT
+              value: "5050"
