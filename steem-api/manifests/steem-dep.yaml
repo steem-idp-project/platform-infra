@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: steem-api
-          image: idpuser/steem-api:latest
+          image: idpuser/steem-api:v1.0.0
           imagePullPolicy: Always
           readinessProbe:
             initialDelaySeconds: 30
