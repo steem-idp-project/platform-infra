@@ -24,3 +24,7 @@ spec:
         proxy:
           upstream: steem-api
           rewritePath: /
+      errorPages:
+        - codes: [509]
+          return:
+            body: "Workaround to not have Nginx intercept other errors from upstream"
